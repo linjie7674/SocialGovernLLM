@@ -1,0 +1,11 @@
+*.log
+*.log.*
+/logs
+.idea/
+__pycache__/
+.vscode/
+.pytest_cache/
+/models/
+**/m3e-base
+/nltk_data/
+/knowledge_base/
