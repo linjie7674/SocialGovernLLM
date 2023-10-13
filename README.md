@@ -8,9 +8,8 @@ pip3 install -r requirements.txt
 在huggingface中下载模型vicuna-13b-v1.5和m3e-base。将vicuna-13b-v1.5模型放在./models/base-models/目录（若没有，则自行创建）中，将m3e-base放在./目录中。
 ## 下载知识库
 使用以下链接下载知识库，并将其放入项目的根目录中。
-```bash
-https://pan.baidu.com/s/11a4t9iB6mXvstu3oXnpdSg?pwd=ham7
-```
+
+<https://pan.baidu.com/s/11a4t9iB6mXvstu3oXnpdSg?pwd=ham7>
 
 ## 运行模型api
 ```bash
