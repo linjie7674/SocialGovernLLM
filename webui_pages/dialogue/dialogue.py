@@ -272,14 +272,43 @@ def dialogue_public_page(api: ApiRequest):
                     index=search_engine_list.index("duckduckgo") if "duckduckgo" in search_engine_list else 0,
                 )
                 se_top_k = st.number_input("匹配搜索结果条数：", 1, 20, SEARCH_ENGINE_TOP_K)
+        
+        cols = st.columns(2)
+        export_btn = cols[0]
+        if cols[1].button(
+                "清空对话",
+                use_container_width=True,
+        ):
+            chat_box.reset_history()
+            st.experimental_rerun()
+        
+        prompt = None
+        st.write("参考prompt：")
+        a = st.button("如何提高人民群众幸福感？")
+        if a:
+            prompt = "如何提高人民群众幸福感？"
+        b = st.button("社会治理的关键是什么？")
+        if b:
+            prompt = "社会治理的关键是什么？"
+        c = st.button("基层社会治理面临哪些突出难题？")
+        if c:
+            prompt = "基层社会治理面临哪些突出难题？"
+        d = st.button("如何改善基层医疗服务，确保全民享有平等的医疗待遇？")
+        if d:
+            prompt = "如何改善基层医疗服务，确保全民享有平等的医疗待遇？"
+
 
     # Display chat messages from history on app rerun
 
     chat_box.output_messages()
 
     chat_input_placeholder = "请输入对话内容，换行请使用Shift+Enter "
+    
+    input_prompt = st.chat_input(chat_input_placeholder, key="prompt")
 
-    if prompt := st.chat_input(chat_input_placeholder, key="prompt"):
+    if a or b or c or d or input_prompt:
+        if prompt is None:
+            prompt = input_prompt
         history = get_messages_history(history_len)
         chat_box.user_say(prompt)
         if dialogue_mode == "LLM 对话":
@@ -331,16 +360,6 @@ def dialogue_public_page(api: ApiRequest):
             chat_box.update_msg(text, 0, streaming=False)
 
     now = datetime.now()
-    with st.sidebar:
-
-        cols = st.columns(2)
-        export_btn = cols[0]
-        if cols[1].button(
-                "清空对话",
-                use_container_width=True,
-        ):
-            chat_box.reset_history()
-            st.experimental_rerun()
 
     export_btn.download_button(
         "导出记录",
