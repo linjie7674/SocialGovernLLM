@@ -290,12 +290,12 @@ def dialogue_public_page(api: ApiRequest):
         b = st.button("社会治理的关键是什么？")
         if b:
             prompt = "社会治理的关键是什么？"
-        c = st.button("基层社会治理面临哪些突出难题？")
+        c = st.button("如何保护弱势群体的权益？")
         if c:
-            prompt = "基层社会治理面临哪些突出难题？"
-        d = st.button("如何改善基层医疗服务，确保全民享有平等的医疗待遇？")
+            prompt = "如何保护弱势群体的权益？"
+        d = st.button("如何提高公众对政府的信任度？")
         if d:
-            prompt = "如何改善基层医疗服务，确保全民享有平等的医疗待遇？"
+            prompt = "如何提高公众对政府的信任度？"
 
 
     # Display chat messages from history on app rerun

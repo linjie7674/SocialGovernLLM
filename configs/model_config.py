@@ -176,7 +176,7 @@ SEARCH_ENGINE_TOP_K = 5
 NLTK_DATA_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "nltk_data")
 
 # 基于本地知识问答的提示词模版（使用Jinja2语法，简单点就是用双大括号代替f-string的单大括号
-PROMPT_TEMPLATE = """结合所给信息，回答下列问题。回答中请不要包含“根据已知信息”、“结合所给信息”、“根据所给信息”等文字。{{ context }}问题：{{ question }}"""
+PROMPT_TEMPLATE = """回答内容不要，并确保在600字以内。结合所给信息，回答下列问题。回答中请不要包含“根据已知信息”、“结合所给信息”、“根据所给信息”等文字。{{ context }}问题：{{ question }}"""
 
 # API 是否开启跨域，默认为False，如果需要开启，请设置为True
 # is open cross domain

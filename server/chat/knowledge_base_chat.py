@@ -35,6 +35,7 @@ def knowledge_base_chat(query: str = Body(..., description="用户输入", examp
                         local_doc_url: bool = Body(False, description="知识文件返回本地路径(true)或URL(false)"),
                         request: Request = None,
                         ):
+    top_k = 3
     kb = KBServiceFactory.get_service_by_name(knowledge_base_name)
     if kb is None:
         return BaseResponse(code=404, msg=f"未找到知识库 {knowledge_base_name}")
@@ -48,6 +49,7 @@ def knowledge_base_chat(query: str = Body(..., description="用户输入", examp
                                            model_name: str = LLM_MODEL,
                                            ) -> AsyncIterable[str]:
         callback = AsyncIteratorCallbackHandler()
+        max_tokens = 1500
         model = ChatOpenAI(
             streaming=True,
             verbose=True,
@@ -55,7 +57,8 @@ def knowledge_base_chat(query: str = Body(..., description="用户输入", examp
             openai_api_key=llm_model_dict[model_name]["api_key"],
             openai_api_base=llm_model_dict[model_name]["api_base_url"],
             model_name=model_name,
-            openai_proxy=llm_model_dict[model_name].get("openai_proxy")
+            openai_proxy=llm_model_dict[model_name].get("openai_proxy"),
+            max_tokens=max_tokens
         )
         docs = search_docs(query, knowledge_base_name, top_k, score_threshold)
         context = "\n".join([doc.page_content for doc in docs])
@@ -67,6 +70,10 @@ def knowledge_base_chat(query: str = Body(..., description="用户输入", examp
         chain = LLMChain(prompt=chat_prompt, llm=model)
 
         # Begin a task that runs in the background.
+        context_len = 4096 - max_tokens - len(query)
+        if len(context) > context_len:
+            context_len = len(context) - context_len
+        context = context[context_len: ]
         task = asyncio.create_task(wrap_done(
             chain.acall({"context": context, "question": query}),
             callback.done),
